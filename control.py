@@ -1,4 +1,7 @@
-import os, sys
+import os
+import sys
+import time
+import subprocess
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -7,6 +10,26 @@ else:
     sys.exit("Please declare the environment variable 'SUMO_HOME'")
 
 sumoBinary = "/usr/bin/sumo-gui"
-sumoCmd = [sumoBinary, "-c", 'bangalore.sumo.cfg']
+sumoConfig = "bangalore.sumo.cfg"
+
 import traci
+
+sumoCmd = [sumoBinary, "-c", sumoConfig, "--start"]
 traci.start(sumoCmd)
+"""PORT = 8873
+if len(sys.argv)>1:
+    retcode = subprocess.call("%s -c %s --python-script %s" % (sumoBinary, sumoConfig, __file__),
+                              shell=True, stdout=sys.stdout)
+    sys.exit(retcode)
+else:
+    sumoProcess = subprocess.Popen("%s -c %s" % (sumoBinary, sumoConfig),
+                                   shell=True, stdout=sys.stdout)"""
+
+# Code to control traffic lights here
+# Example code :P
+# print traci.edge.getIDList()
+for step in range(1000):
+    traci.simulationStep()
+    time.sleep(0.5)
+
+traci.close()

@@ -1,4 +1,5 @@
 # After importing the .osm map file.
+# Creates the necessary net and polygons
 netconvert --osm-files bangalore.osm --output-file bangalore.net.xml
 polyconvert --net-file bangalore.net.xml --osm-files bangalore.osm --type-file typemap.xml -o bangalore.poly.xml
 python /usr/share/sumo/tools/randomTrips.py -n bangalore.net.xml -e 100 -l
