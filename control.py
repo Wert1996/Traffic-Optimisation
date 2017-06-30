@@ -16,6 +16,7 @@ import traci
 
 sumoCmd = [sumoBinary, "-c", sumoConfig, "--start"]
 traci.start(sumoCmd)
+
 """PORT = 8873
 if len(sys.argv)>1:
     retcode = subprocess.call("%s -c %s --python-script %s" % (sumoBinary, sumoConfig, __file__),
@@ -27,9 +28,9 @@ else:
 
 # Code to control traffic lights here
 # Example code :P
-# print traci.edge.getIDList()
+# print traci.inductionloop.getIDList()
 for step in range(1000):
     traci.simulationStep()
-    time.sleep(0.5)
+    time.sleep(0.1)
 
 traci.close()
