@@ -9,7 +9,7 @@ if 'SUMO_HOME' in os.environ:
 else:
     sys.exit("Please declare the environment variable 'SUMO_HOME'")
 
-sumoBinary = "/usr/bin/sumo"
+sumoBinary = "/usr/bin/sumo-gui"
 sumoConfig = "bangalore.sumo.cfg"
 
 import traci
@@ -29,7 +29,12 @@ else:
 # Code to control traffic lights here
 # Example code :P
 # print traci.inductionloop.getIDList()
-print(traci.trafficlights.getIDList())
+# lanes = traci.lane.getIDList()
+"""with open('bangalore.det.xml', 'w') as f:
+    for lane in lanes:
+        f.write("<inductionLoop id='{}' lane='{}' pos='{}' freq='100' "
+                "file='bangalore.net.xml'/>\n".format(lane+"loop", lane, float(traci.lane.getLength(lane))/2))"""
+traci.inductionloop.getLastStepMeanSpeed()
 for step in range(1000):
     traci.simulationStep()
     time.sleep(0.1)
