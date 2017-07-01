@@ -1,23 +1,13 @@
 def makeDetectors(lanes):
     with open('bangalore.det.xml', 'w') as f:
+        f.write("<additional>\n")
         for lane in lanes:
             if traci.lane.getLength(lane) > 5.0:
-                f.write("<inductionLoop id='{}' lane='{}' pos='{}' freq='100' "
+                f.write("\t<inductionLoop id='{}' lane='{}' pos='{}' freq='100' "
                         "file='resultsOfDetectors.xml'/>\n".format(lane + "loop", lane, float(traci.lane.getLength(lane)) / 2))
+        f.write("</additional>")
 
 
-def makemap(TLIds):
-    maptlactions = []
-    phasesinfirstlight = (len(traci.trafficlights.getRedYellowGreenState(TLIds[0])) ** 0.5) * 2
-    for i in range(int(phasesinfirstlight)):
-        maptlactions.append(i)
-    for light in TLIds[1:]:
-        n_phases = (len(traci.trafficlights.getRedYellowGreenState(light)) ** 0.5) * 2
-        temp = maptlactions
-        for phase in range(int(n_phases)):
-            for state in temp:
-                maptlactions.append(state + [phase])
-    return maptlactions
 
 
 if __name__ == "__main__":

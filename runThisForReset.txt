@@ -1,2 +1,2 @@
 # To delete a map
-rm bangalore.net.xml  bangalore.poly.xml bangalore.rou.alt.xml bangalore.rou.xml trips.trips.xml
+rm bangalore.net.xml bangalore.poly.xml bangalore.rou.alt.xml bangalore.rou.xml trips.trips.xml
