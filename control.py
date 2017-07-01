@@ -1,5 +1,6 @@
 import os
 import sys
+import numpy as np
 import time
 from Dqn import Learner
 if 'SUMO_HOME' in os.environ:
@@ -11,20 +12,7 @@ else:
 sumoBinary = "/usr/bin/sumo"
 sumoConfig = "bangalore.sumo.cfg"
 import traci
-
-
-def makemap(TLIds):
-    maptlactions = []
-    phasesinfirstlight = (len(traci.trafficlights.getRedYellowGreenState(TLIds[0])) ** 0.5) * 2
-    for i in range(int(phasesinfirstlight)):
-        maptlactions.append([i])
-    for light in TLIds[1:]:
-        n_phases = (len(traci.trafficlights.getRedYellowGreenState(light)) ** 0.5) * 2
-        temp = maptlactions
-        for phase in range(int(n_phases)):
-            for state in temp:
-                maptlactions.append(state + [phase])
-    return maptlactions
+from auxilliary import makemap
 
 
 def get_state(detectorIDs):
@@ -54,10 +42,11 @@ def main():
     for simulation in range(epochs):
         traci.start(sumoCmd)
         # Get number of induction loops
-        state_space_size = traci.inductionloop.IDCount()
+        state_space_size = traci.inductionloop.getIDCount()
         action_space_size = len(actionsMap)
         agent = Learner(state_space_size, action_space_size)
         state = get_state(detectorIDs)
+
         total_reward = 0
         for simulationSteps in range(10000):
             action = agent.act(state)
