@@ -43,8 +43,11 @@ class Learner:
     def replay(self):
         minibatch = random.sample(list(self.memory), self.batch_size)
         for state, action, reward, next_state in minibatch:
+            # print "Reward: {}".format(type(reward))
             target = reward + self.gamma*np.max(self.regressor.predict(next_state)[0])
             target_f = self.regressor.predict(state)
+            # print target_f
+            # print target
             target_f[0][action] = target
             self.regressor.fit(state, target_f, epochs=1, verbose=0)
         if self.exploration > self.min_exploration:

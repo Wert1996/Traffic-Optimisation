@@ -20,12 +20,16 @@ def get_state(detectorIDs):
     for detector in detectorIDs:
         speed = traci.inductionloop.getLastStepMeanSpeed(detector)
         state.append(speed)
+    state = np.array(state)
+    state = state.reshape((1, state.shape[0]))
     return state
 
 
 def calc_reward(state, next_state):
     rew = 0
-    for det_old, det_new in zip(state, next_state):
+    lstate = list(state)[0]
+    lnext_state = list(next_state)[0]
+    for det_old, det_new in zip(lstate, lnext_state):
         rew += det_new - det_old
     return rew
 
@@ -46,7 +50,6 @@ def main():
         action_space_size = len(actionsMap)
         agent = Learner(state_space_size, action_space_size)
         state = get_state(detectorIDs)
-
         total_reward = 0
         for simulationSteps in range(10000):
             action = agent.act(state)
@@ -62,7 +65,8 @@ def main():
             agent.remember(state, action, reward, next_state)
             state = next_state
         traci.close()
-        print("Simulation {}: {}".format(simulation, total_reward))
+        with open("ResultsOfSimulations.txt", "a") as f:
+            f.write("Simulation {}: {}".format(simulation, total_reward))
         agent.replay()
 
 if __name__ == '__main__':
