@@ -1,0 +1,23 @@
+<additional>
+	<inductionLoop id='-143547931#0_0loop' lane='-143547931#0_0' pos='59.69' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-143547931#1_0loop' lane='-143547931#1_0' pos='66.465' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-143547931#2_0loop' lane='-143547931#2_0' pos='37.06' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-143551389#0_0loop' lane='-143551389#0_0' pos='146.64' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-143551389#1_0loop' lane='-143551389#1_0' pos='32.73' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-143553082#0_0loop' lane='-143553082#0_0' pos='498.745' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-143553082#1_0loop' lane='-143553082#1_0' pos='31.215' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-348320661#0_0loop' lane='-348320661#0_0' pos='57.495' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='-348320661#1_0loop' lane='-348320661#1_0' pos='66.68' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='143547931#0_0loop' lane='143547931#0_0' pos='59.69' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='143547931#1_0loop' lane='143547931#1_0' pos='66.465' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='143547931#2_0loop' lane='143547931#2_0' pos='37.06' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='143551389#0_0loop' lane='143551389#0_0' pos='146.635' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='143551389#1_0loop' lane='143551389#1_0' pos='32.73' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='143553082#0_0loop' lane='143553082#0_0' pos='498.755' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='143553082#1_0loop' lane='143553082#1_0' pos='31.215' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='348320661#0_0loop' lane='348320661#0_0' pos='57.495' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id='348320661#1_0loop' lane='348320661#1_0' pos='66.68' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id=':1570888196_1_0loop' lane=':1570888196_1_0' pos='5.16' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id=':1570901527_1_0loop' lane=':1570901527_1_0' pos='5.165' freq='100' file='resultsOfDetectors.xml'/>
+	<inductionLoop id=':3544504239_4_0loop' lane=':3544504239_4_0' pos='5.235' freq='100' file='resultsOfDetectors.xml'/>
+</additional>

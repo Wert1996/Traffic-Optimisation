@@ -1,8 +1,8 @@
 import os
 import sys
 import numpy as np
-import time
-from Dqn import Learner
+from scripts.Dqn import Learner
+
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
     sys.path.append(tools)
@@ -10,9 +10,9 @@ else:
     sys.exit("Please declare the environment variable 'SUMO_HOME'")
 
 sumoBinary = "/usr/bin/sumo"
-sumoConfig = "bangalore.sumo.cfg"
+sumoConfig = "data/bangalore.sumo.cfg"
 import traci
-from auxilliary import makemap
+from scripts.auxilliary import makemap
 
 
 def get_state(detectorIDs):
@@ -41,17 +41,18 @@ def main():
     TLIds = traci.trafficlights.getIDList()
     actionsMap = makemap(TLIds)
     detectorIDs = traci.inductionloop.getIDList()
+    state_space_size = traci.inductionloop.getIDCount()
+    action_space_size = len(actionsMap)
+    agent = Learner(state_space_size, action_space_size)
+    # agent.load("./save/traffic.h5")
     traci.close()
     epochs = 1000
     for simulation in range(epochs):
         traci.start(sumoCmd)
         # Get number of induction loops
-        state_space_size = traci.inductionloop.getIDCount()
-        action_space_size = len(actionsMap)
-        agent = Learner(state_space_size, action_space_size)
         state = get_state(detectorIDs)
         total_reward = 0
-        for simulationSteps in range(10000):
+        for simulationSteps in range(4000):
             action = agent.act(state)
             lightsPhase = actionsMap[action]
             for light, index in zip(TLIds, range(len(TLIds))):
@@ -66,8 +67,10 @@ def main():
             state = next_state
         traci.close()
         with open("ResultsOfSimulations.txt", "a") as f:
-            f.write("Simulation {}: {}".format(simulation, total_reward))
+            f.write("Simulation {}: {}\n".format(simulation, total_reward))
         agent.replay()
+        if simulation % 10 == 0:
+            agent.save("./save/traffic.h5")
 
 if __name__ == '__main__':
     main()
