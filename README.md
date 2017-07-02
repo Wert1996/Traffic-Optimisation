@@ -12,6 +12,14 @@ Install SUMO 0.28.0 using the command -
 
 `sudo apt-get install sumo sumo-tools sumo-doc`
 
+Create a virtual environment(install if not installed) using the command - 
+
+`virtualenv venv`
+
+Activate the virtual environment -
+
+`source venv/bin/activate`
+
 Install requirements using 
 `pip install -r setup/requirements.txt`
 
