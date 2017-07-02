@@ -6,20 +6,20 @@ if 'SUMO_HOME' in os.environ:
     sys.path.append(tools)
 else:
     sys.exit("Please declare the environment variable 'SUMO_HOME'")
-
 sumoBinary = "/usr/bin/sumo"
-sumoConfig = "bangalore.sumo.cfg"
+parent_dir = os.path.dirname(os.path.dirname(__file__))
+sumoConfig = os.path.join(parent_dir, "data/bangalore.sumo.cfg")
 
 import traci
 
 
 def makeDetectors(lanes):
-    with open('bangalore.det.xml', 'w') as f:
+    with open(os.path.join(parent_dir, 'data/bangalore.det.xml'), 'w') as f:
         f.write("<additional>\n")
         for lane in lanes:
-            if traci.lane.getLength(lane) > 10.0:
+            if traci.lane.getLength(lane) > 20.0:
                 f.write("\t<inductionLoop id='{}' lane='{}' pos='{}' freq='100' "
-                        "file='resultsOfDetectors.xml'/>\n".format(lane + "loop", lane, float(traci.lane.getLength(lane)) / 2))
+                        "file='{}'/>\n".format(lane + "loop", lane, float(traci.lane.getLength(lane)) / 2, os.path.join(parent_dir, "data/resultsOfDetectors.xml")))
         f.write("</additional>")
 
 
@@ -37,11 +37,13 @@ def makemap(TLIds):
         mapTemp = []
         if len(maptlactions) == 0:
             for i in range(n_phase):
-                maptlactions.append([i])
+                if i%2 == 0:
+                    maptlactions.append([i])
         else:
             for state in maptlactions:
                 for i in range(n_phase):
-                    mapTemp.append(state+[i])
+                    if i%2 == 0:
+                        mapTemp.append(state+[i])
             maptlactions = mapTemp
     return maptlactions
 
@@ -49,8 +51,8 @@ def makemap(TLIds):
 if __name__ == "__main__":
     sumoCmd = [sumoBinary, "-c", sumoConfig, "--start"]
     traci.start(sumoCmd)
-    # lanes = traci.lane.getIDList()
-    # makeDetectors(lanes)
-    TLIds = traci.trafficlights.getIDList()
-    print makemap(TLIds)
+    lanes = traci.lane.getIDList()
+    makeDetectors(lanes)
+    # TLIds = traci.trafficlights.getIDList()
+    # print makemap(TLIds)
     traci.close()

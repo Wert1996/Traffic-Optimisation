@@ -13,8 +13,8 @@ class Learner:
         self.state_size = state_space_size
         self.action_size = action_space_size
         self.learning_rate = 0.001
-        self.firstHidden = 590
-        self.secondHidden = 1159
+        self.firstHidden = 604
+        self.secondHidden = 1166
         self.regressor = self._build_model()
         self.exploration = 1.
         self.exploration_decay = 0.995

@@ -2,6 +2,7 @@ import os
 import sys
 import numpy as np
 from scripts.Dqn import Learner
+import time
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -20,6 +21,9 @@ def get_state(detectorIDs):
     for detector in detectorIDs:
         speed = traci.inductionloop.getLastStepMeanSpeed(detector)
         state.append(speed)
+    for detector in detectorIDs:
+        veh_num = traci.inductionloop.getLastStepVehicleNumber(detector)
+        state.append(veh_num)
     state = np.array(state)
     state = state.reshape((1, state.shape[0]))
     return state
@@ -29,8 +33,12 @@ def calc_reward(state, next_state):
     rew = 0
     lstate = list(state)[0]
     lnext_state = list(next_state)[0]
-    for det_old, det_new in zip(lstate, lnext_state):
-        rew += det_new - det_old
+    for ind, (det_old, det_new) in enumerate(zip(lstate, lnext_state)):
+        if ind < len(lstate)/2:
+            rew += 1000*(det_new - det_old)
+        else:
+            rew += 1000*(det_old - det_new)
+
     return rew
 
 
@@ -41,10 +49,10 @@ def main():
     TLIds = traci.trafficlights.getIDList()
     actionsMap = makemap(TLIds)
     detectorIDs = traci.inductionloop.getIDList()
-    state_space_size = traci.inductionloop.getIDCount()
+    state_space_size = traci.inductionloop.getIDCount()*2
     action_space_size = len(actionsMap)
     agent = Learner(state_space_size, action_space_size)
-    # agent.load("./save/traffic.h5")
+    agent.load("./save/traffic.h5")
     traci.close()
     epochs = 1000
     for simulation in range(epochs):
@@ -52,14 +60,16 @@ def main():
         # Get number of induction loops
         state = get_state(detectorIDs)
         total_reward = 0
-        for simulationSteps in range(4000):
+        simulationSteps = 0
+        while simulationSteps < 2000:
             action = agent.act(state)
             lightsPhase = actionsMap[action]
             for light, index in zip(TLIds, range(len(TLIds))):
                 traci.trafficlights.setPhase(light, lightsPhase[index])
-            for i in range(10):
+            for i in range(2):
                 traci.simulationStep()
-            simulationSteps += 10
+                # time.sleep(0.2)
+            simulationSteps += 2
             next_state = get_state(detectorIDs)
             reward = calc_reward(state, next_state)
             total_reward += reward
