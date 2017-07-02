@@ -19,7 +19,7 @@ def makeDetectors(lanes):
         for lane in lanes:
             if traci.lane.getLength(lane) > 20.0:
                 f.write("\t<inductionLoop id='{}' lane='{}' pos='{}' freq='100' "
-                        "file='{}'/>\n".format(lane + "loop", lane, float(traci.lane.getLength(lane)) / 2, os.path.join(parent_dir, "data/resultsOfDetectors.xml")))
+                        "file='{}'/>\n".format(lane + "loop", lane, -10, os.path.join(parent_dir, "data/resultsOfDetectors.xml")))
         f.write("</additional>")
 
 

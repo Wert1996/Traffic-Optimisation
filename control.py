@@ -51,8 +51,8 @@ def main():
     detectorIDs = traci.inductionloop.getIDList()
     state_space_size = traci.inductionloop.getIDCount()*2
     action_space_size = len(actionsMap)
-    agent = Learner(state_space_size, action_space_size)
-    agent.load("./save/traffic.h5")
+    agent = Learner(state_space_size, action_space_size, 1.0)
+    # agent.load("./save/traffic.h5")
     traci.close()
     epochs = 1000
     for simulation in range(epochs):
@@ -61,14 +61,13 @@ def main():
         state = get_state(detectorIDs)
         total_reward = 0
         simulationSteps = 0
-        while simulationSteps < 2000:
+        while simulationSteps < 1000:
             action = agent.act(state)
             lightsPhase = actionsMap[action]
             for light, index in zip(TLIds, range(len(TLIds))):
                 traci.trafficlights.setPhase(light, lightsPhase[index])
             for i in range(2):
                 traci.simulationStep()
-                # time.sleep(0.2)
             simulationSteps += 2
             next_state = get_state(detectorIDs)
             reward = calc_reward(state, next_state)

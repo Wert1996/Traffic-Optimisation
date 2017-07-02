@@ -9,18 +9,18 @@ import h5py
 
 
 class Learner:
-    def __init__(self, state_space_size, action_space_size):
+    def __init__(self, state_space_size, action_space_size, exploration):
         self.state_size = state_space_size
         self.action_size = action_space_size
         self.learning_rate = 0.001
         self.firstHidden = 604
         self.secondHidden = 1166
         self.regressor = self._build_model()
-        self.exploration = 1.
+        self.exploration = exploration
         self.exploration_decay = 0.995
         self.min_exploration = 0.01
         self.memory = deque(maxlen=2000)
-        self.batch_size = 32
+        self.batch_size = 200
         self.gamma = 0.95
 
     def _build_model(self):
