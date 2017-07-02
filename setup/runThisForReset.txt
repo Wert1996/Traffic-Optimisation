@@ -1,2 +1,0 @@
-# To delete a map
-rm ../data/bangalore.net.xml ../data/bangalore.osm ../data/bangalore.poly.xml ../data/bangalore.rou.alt.xml ../data/bangalore.rou.xml ../data/trips.trips.xml
